@@ -76,11 +76,23 @@ const SearchButton = styled.button`
   }
 `;
 
-function SearchBar({ searchKeyword, changeSearchKeywordHandler, toggleInputFocus, isInputFocused }: SearchBarProps) {
+function SearchBar({
+  searchKeyword,
+  changeSearchKeywordHandler,
+  toggleInputFocus,
+  isInputFocused,
+  changeRecommendedKeywordsIndex,
+}: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const focusInputHandler = () => {
     inputRef.current!.focus();
+  };
+
+  const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing === false) {
+      changeRecommendedKeywordsIndex(e.key);
+    }
   };
 
   return (
@@ -101,6 +113,7 @@ function SearchBar({ searchKeyword, changeSearchKeywordHandler, toggleInputFocus
           onFocus={toggleInputFocus}
           onBlur={toggleInputFocus}
           onChange={changeSearchKeywordHandler}
+          onKeyDown={onKeyDownHandler}
           ref={inputRef}
         />
       </InputLayout>

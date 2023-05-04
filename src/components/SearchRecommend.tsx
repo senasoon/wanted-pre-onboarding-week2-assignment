@@ -8,12 +8,18 @@ const SearchRecommendLayout = styled.div`
   margin-top: 10px;
   background-color: #fff;
   min-height: 50px;
+  max-height: 370px;
   border-radius: 20px;
   box-shadow: 0 0 10px rgb(0, 0, 0, 0.2);
   padding: 20px;
+`;
+
+const RecommendedKeywordsList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
 `;
 
 const Guide = styled.span`
@@ -21,17 +27,23 @@ const Guide = styled.span`
   color: #949494;
 `;
 
-function SearchRecommend({ searchKeyword }: SearchRecommendProps) {
+function SearchRecommend({ recommendedKeywords, recommendedKeywordsIndex }: SearchRecommendProps) {
   return (
     <SearchRecommendLayout>
-      {!searchKeyword && <Guide>검색어 없음</Guide>}
-      {searchKeyword && (
-        <>
+      {recommendedKeywords.length === 0 ? (
+        <Guide>검색어 없음</Guide>
+      ) : (
+        <RecommendedKeywordsList>
           <Guide>추천 검색어</Guide>
-          <SearchKeyword />
-          <SearchKeyword />
-          <SearchKeyword />
-        </>
+          {recommendedKeywords.map((keyword, index) => (
+            <SearchKeyword
+              key={keyword.id}
+              {...keyword}
+              recommendedKeywordsIndex={recommendedKeywordsIndex}
+              index={index}
+            />
+          ))}
+        </RecommendedKeywordsList>
       )}
     </SearchRecommendLayout>
   );
