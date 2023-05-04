@@ -86,6 +86,13 @@ function Search() {
     if (debouncedKeyword) getRecommendedKeywordsHandler();
   }, [debouncedKeyword]);
 
+  useEffect(() => {
+    if (!searchKeyword) {
+      setRecommendedKeywords([]);
+      setRecommendedKeywordsIndex(-1);
+    }
+  }, [searchKeyword]);
+
   return (
     <SearchLayout>
       <Guide>
